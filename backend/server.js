@@ -26,7 +26,7 @@ const getSize = (customer) => {
     return customer.employees <= 100 ? "Small" : customer.employees <= 1000 ? "Medium" : "Big";
 }
 
-app.post('/', (req, res) => {
+app.all('/', (req, res) => {
     const { name } = req.body;
     const response = {
         name, 

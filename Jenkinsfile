@@ -5,7 +5,7 @@ pipeline {
     }
 
     environment {
-        DOCKER_REGISTRY = 'docker.io/emanabdelhamed241'
+        DOCKER_REGISTRY = 'emanabdelhamed241'
         NODE_IMAGE = "${DOCKER_REGISTRY}/node-app-final:latest"
         REACT_IMAGE = "${DOCKER_REGISTRY}/react-app-final:latest"
         // KUBECONFIG = '/path/to/.kube/config'

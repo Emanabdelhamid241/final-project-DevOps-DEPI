@@ -1,0 +1,39 @@
+---
+  - name: Deploy My Application using kubectl
+    hosts: localhost
+    connection: local
+    tasks:
+      - name: Apply Kubernetes Deployment and service of backend using kubectl
+        command: kubectl apply -f /home/eman/devops/final_project/k8s/node.yml
+        register: deployment_output
+        ignore_errors: yes
+  
+      - name: Print Deployment Output
+        debug:
+          var: deployment_output.stdout
+  
+      - name: Apply Kubernetes Deployment and Service of frontend using kubectl
+        command: kubectl apply -f /home/eman/devops/final_project/k8s/front.yml
+        register: service_output
+        ignore_errors: yes
+  
+      - name: Print Service Output
+        debug:
+          var: service_output.stdout
+  
+      # - name: Check Deployment Rollout Status
+      #   command: kubectl rollout status deployment/my-app
+      #   register: rollout_status
+  
+      # - name: Print Rollout Status
+      #   debug:
+      #     var: rollout_status.stdout
+  
+
+
+
+
+
+
+
+

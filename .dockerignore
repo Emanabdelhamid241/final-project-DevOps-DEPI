@@ -1,0 +1,3 @@
+frontend/Dockerfile
+backend/Dockerfile
+docker-compose*

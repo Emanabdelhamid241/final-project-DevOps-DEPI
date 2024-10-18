@@ -47,3 +47,4 @@ Run `npm run test:frontend:with:server` to run the UI tests in headless mode.
 ___
 
 Made with ❤️ by [Walmyr](https://walmyr.dev).
+    

@@ -29,28 +29,7 @@ resource "aws_instance" "JenkinsServer" {
 ##
   associate_public_ip_address= true
   
-  user_data = <<-EOF
-  #!/bin/bash
-              # Update package manager and install Java (required for Jenkins)
-              sudo yum update -y
-              sudo amazon-linux-extras install java-openjdk11 -y
 
-              # Add Jenkins repo and import the GPG key
-              wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-              rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-
-              # Install Jenkins
-              sudo yum install jenkins -y
-
-              # Start Jenkins
-              sudo systemctl start jenkins
-              sudo systemctl enable jenkins
-
-              # Enable firewall (optional) and allow Jenkins to communicate on port 8080
-              sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
-              sudo firewall-cmd --reload
-
-              # Jenkins will run on port 8080
 /*#                     #!/bin/bash
 #                     sudo apt-get update
 #                     sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
@@ -81,11 +60,49 @@ resource "aws_instance" "JenkinsServer" {
 # sudo systemctl start jenkins
 */
 
-  EOF
+
  tags = {
     Name = "JenkinsServerInstance"
   }
+#  # SSH connection details
+#   connection {
+#     type        = "ssh"
+#     user        = "ec2-user" 
+#     private_key =  file("~/.ssh/id_rsa.pub")  # Path to your private key
+#     host        = self.public_ip
+#   }
+  # provisioner "file"{
+  #   source="install_jenkins.sh"
+  #   destination="/tmp/install_jenkins.sh"
+  # }
+ 
+  # provisioner "remote-exec"{
+  #   inline =[
+  #     "sudo chmod +x /tmp/install_jenkins.sh",
+  #     "sh /tmp/install_jenkins.sh",
+  #   ]
+  # }
   depends_on = [aws_key_pair.UbuntuKP]
 
 }
-
+resource "null_resource" "name"{
+     # SSH connection details
+  connection {
+    type        = "ssh"
+    user        = "ec2-user" 
+    private_key =  file("~/.ssh/id_rsa")  # Path to your private key
+    host        = aws_instance.JenkinsServer.public_ip
+  }
+  provisioner "file"{
+    source="install_jenkins.sh"
+    destination="/tmp/install_jenkins.sh"
+  }
+ 
+  provisioner "remote-exec"{
+    inline =[
+      "sudo chmod +x /tmp/install_jenkins.sh",
+      "sh /tmp/install_jenkins.sh",
+    ]
+  }
+  depends_on=[aws_instance.JenkinsServer]
+}

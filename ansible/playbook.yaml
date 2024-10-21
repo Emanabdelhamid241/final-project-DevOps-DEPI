@@ -4,7 +4,7 @@
     connection: local
     tasks:
       - name: Apply Kubernetes Deployment and service of backend using kubectl
-        command: kubectl apply -f /home/eman/devops/final_project/k8s/node.yml
+        command: kubectl apply -f ../k8s/node.yml
         register: deployment_output
         ignore_errors: yes
   
@@ -13,7 +13,7 @@
           var: deployment_output.stdout
   
       - name: Apply Kubernetes Deployment and Service of frontend using kubectl
-        command: kubectl apply -f /home/eman/devops/final_project/k8s/front.yml
+        command: kubectl apply -f ../k8s/front.yml
         register: service_output
         ignore_errors: yes
   

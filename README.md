@@ -36,4 +36,4 @@ The following tools are used to manage, deploy, and monitor this project:
 ## Deployment Process
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Emanabdelhamid241/final-project-DevOps-DEPI.git

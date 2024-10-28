@@ -1,5 +1,8 @@
 # Frontend and Backend Project
 
+## Tools
+![Project Image](./imgs/projecttools.PNG)
+
 ## Overview
 This project is a full-stack application that integrates frontend and backend components using various DevOps tools and best practices for deployment, orchestration, and automation. The goal is to streamline development and operations while leveraging cloud services for scalability.
 
@@ -33,4 +36,4 @@ The following tools are used to manage, deploy, and monitor this project:
 ## Deployment Process
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Emanabdelhamid241/final-project-DevOps-DEPI.git

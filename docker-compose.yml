@@ -2,13 +2,13 @@
 services:
   backend-img:
     build: ./backend
-    container_name: backend-container
+    container_name: backend-container2
     ports:
       - "3001:3001"
 
   frontend-img:
     build: ./frontend
-    container_name: frontend-container
+    container_name: frontend-container2
     ports:
       - "3000:3000"
     depends_on:

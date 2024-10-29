@@ -8,7 +8,6 @@ pipeline {
         DOCKER_REGISTRY = 'emanabdelhamed241'
         NODE_IMAGE = "${DOCKER_REGISTRY}/node-app-final:latest"
         REACT_IMAGE = "${DOCKER_REGISTRY}/react-app-final:latest"
-        // KUBECONFIG = '/path/to/.kube/config'
         ANSIBLE_INVENTORY = 'ansible/inventories/hosts.yaml'
     }
 
@@ -46,15 +45,7 @@ pipeline {
             }
         }
 
-        // stage('Deploy to Kubernetes via Ansible') {
-        //     steps {
-        //         ansiblePlaybook(
-        //             playbook: 'ansible/playbooks/deploy-app.yaml',
-        //             inventory: ANSIBLE_INVENTORY,
-        //             extras: "-e 'nodejs_image=${NODE_IMAGE} react_image=${REACT_IMAGE}'"
-        //         )
-        //     }
-        // }
+       
     }
 
     post {

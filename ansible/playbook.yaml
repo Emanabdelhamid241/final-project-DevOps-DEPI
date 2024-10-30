@@ -21,19 +21,5 @@
         debug:
           var: service_output.stdout
   
-      # - name: Check Deployment Rollout Status
-      #   command: kubectl rollout status deployment/my-app
-      #   register: rollout_status
+     
   
-      # - name: Print Rollout Status
-      #   debug:
-      #     var: rollout_status.stdout
-  
-
-
-
-
-
-
-
-

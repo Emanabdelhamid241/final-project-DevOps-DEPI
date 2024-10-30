@@ -18,7 +18,7 @@ spec:
       - name: react-container
         image: emanabdelhamed241/react-app-final:latest
         ports:
-        - containerPort: 80
+        - containerPort: 3000
 
 ---
 # react-service.yaml
@@ -33,7 +33,7 @@ spec:
   selector:
     app: react
   ports:
-    # - protocol: TCP
-    - port: 80
-      targetPort: 80
-      nodePort: 30003
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000

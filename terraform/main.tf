@@ -30,79 +30,36 @@ resource "aws_instance" "JenkinsServer" {
   associate_public_ip_address= true
   
 
-/*#                     #!/bin/bash
-#                     sudo apt-get update
-#                     sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-#                     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-#                     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-#                     sudo apt-get update
-#                     sudo apt-get install -y docker-ce
+  user_data = <<-EOF
+    #!/bin/bash
+    # Update package lists
+    sudo apt update -y
 
-#                     # Install Git 
-#                     sudo apt-get install -y git
+    # Install Java (required by Jenkins)
+    sudo apt install openjdk-11-jdk -y
 
-#                     sudo systemctl start docker
-#                     sudo systemctl enable docker
-#                     sudo groupadd docker
-#                     sudo usermod -aG docker $USER && newgrp docker
-#                     sudo chmod 666 /var/run/docker.sock
-                    
-#                     # Install Docker compose
-#                     sudo apt-get install -y docker-compose
-#                     # Install Jenkins (latest stable version)
-# echo "--------------------Installing Jenkins--------------------"
-# sudo apt -y install wget git
-# wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /etc/apt/trusted.gpg.d/jenkins.asc
-# echo "deb https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list
-# sudo apt-get update -y
-# sudo apt-get install jenkins -y
-# sudo systemctl enable jenkins
-# sudo systemctl start jenkins
-*/
+    # Add Jenkins repository key and source list
+    curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
+      /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+    echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | \
+      sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
 
+    # Update package lists again
+    sudo apt update -y
+
+    # Install Jenkins
+    sudo apt install jenkins -y
+
+    # Start and enable Jenkins service
+    sudo systemctl enable jenkins
+    sudo systemctl start jenkins
+  EOF
 
  tags = {
     Name = "JenkinsServerInstance"
   }
-#  # SSH connection details
-#   connection {
-#     type        = "ssh"
-#     user        = "ec2-user" 
-#     private_key =  file("~/.ssh/id_rsa.pub")  # Path to your private key
-#     host        = self.public_ip
-#   }
-  # provisioner "file"{
-  #   source="install_jenkins.sh"
-  #   destination="/tmp/install_jenkins.sh"
-  # }
- 
-  # provisioner "remote-exec"{
-  #   inline =[
-  #     "sudo chmod +x /tmp/install_jenkins.sh",
-  #     "sh /tmp/install_jenkins.sh",
-  #   ]
-  # }
+
   depends_on = [aws_key_pair.UbuntuKP]
 
 }
-resource "null_resource" "name"{
-     # SSH connection details
-  connection {
-    type        = "ssh"
-    user        = "ec2-user" 
-    private_key =  file("~/.ssh/id_rsa")  # Path to your private key
-    host        = aws_instance.JenkinsServer.public_ip
-  }
-  provisioner "file"{
-    source="install_jenkins.sh"
-    destination="/tmp/install_jenkins.sh"
-  }
- 
-  provisioner "remote-exec"{
-    inline =[
-      "sudo chmod +x /tmp/install_jenkins.sh",
-      "sh /tmp/install_jenkins.sh",
-    ]
-  }
-  depends_on=[aws_instance.JenkinsServer]
-}
+

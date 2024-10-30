@@ -19,7 +19,7 @@ spec:
       - name: nodejs-container
         image: emanabdelhamed241/node-app-final:latest
         ports:
-        - containerPort: 3000
+        - containerPort: 3001
 
 ---
 # nodejs-service.yaml
@@ -34,7 +34,7 @@ spec:
   selector:
     app: nodejs
   ports:
-    # - protocol: TCP
-    - port: 3000
-      targetPort: 3000
-      nodePort: 30004
+    - protocol: TCP
+      port: 3001
+      targetPort: 3001
+      nodePort: 30001
